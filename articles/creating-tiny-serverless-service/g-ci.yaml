@@ -1,0 +1,64 @@
+# .gitlab-ci.yaml
+
+image: ${BASE_WORKER_IMAGE}
+
+stages:
+  - compile
+  - test
+  - deploy
+
+
+compile:
+  stage: compile
+  script:
+    - composer install --no-interaction --no-scripts
+    - composer conf
+  artifacts:
+    paths:
+      - vendor/
+    expire_in: 1 week
+
+test-unit:
+  stage: test
+  script:
+    - composer test-unit
+
+phpmd:
+  stage: test
+  script:
+    - composer phpmd
+
+phpstan:
+  stage: test
+  script:
+    - composer phpstan
+
+phpcs:
+  stage: test
+  script:
+    - composer cs
+
+phpcs-tests:
+  stage: test
+  script:
+    - composer cs-tests
+
+testing:
+  stage: deploy
+  when: manual
+  script:
+    - serverless deploy --stage=testing
+
+
+staging:
+  stage: deploy
+  when: manual
+  script:
+    - serverless deploy --stage=staging
+
+
+production:
+  stage: deploy
+  when: manual
+  script:
+    - serverless deploy --stage=production

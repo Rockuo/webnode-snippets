@@ -7,7 +7,6 @@ stages:
   - test
   - deploy
 
-
 compile:
   stage: compile
   script:
@@ -23,25 +22,7 @@ test-unit:
   script:
     - composer test-unit
 
-phpmd:
-  stage: test
-  script:
-    - composer phpmd
-
-phpstan:
-  stage: test
-  script:
-    - composer phpstan
-
-phpcs:
-  stage: test
-  script:
-    - composer cs
-
-phpcs-tests:
-  stage: test
-  script:
-    - composer cs-tests
+# other tests (codestyle, static analysis and so on)
 
 testing:
   stage: deploy
@@ -49,16 +30,4 @@ testing:
   script:
     - serverless deploy --stage=testing
 
-
-staging:
-  stage: deploy
-  when: manual
-  script:
-    - serverless deploy --stage=staging
-
-
-production:
-  stage: deploy
-  when: manual
-  script:
-    - serverless deploy --stage=production
+# other environments

@@ -18,8 +18,8 @@ public function __construct(
 	public function run(EventPayload $payload): void
 	{
 		$this->logger->log(
-            'LAMBDA: myTaskName: ' . $payload->identifier,
-            LogLevel::DEBUG
+			'LAMBDA: myTaskName: ' . $payload->identifier,
+			LogLevel::DEBUG
 		);
 		$this->notificationRespository->notify($payload->identifier, $payload->offset);
 	}
